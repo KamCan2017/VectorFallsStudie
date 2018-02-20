@@ -30,7 +30,7 @@ namespace SearchApp.ViewModels
         /// </summary>
         public MainWindowViewModel()
         {
-            _searchCommand = new DelegateCommand(async() => await ExecuteSearchCommand(), CanExecuteSearchCommand);
+            _searchCommand = new DelegateCommand(async() =>  await ExecuteSearchCommand(), CanExecuteSearchCommand);
             InitWordList();
         }
         #endregion
@@ -82,20 +82,23 @@ namespace SearchApp.ViewModels
 
         private async Task ExecuteSearchCommand()
         {
+
             Stopwatch stopwatch = null;
-          var foundeWords =  await Task.Factory.StartNew(() =>
-           {
-               stopwatch = Stopwatch.StartNew();
-               var result = WordSearchHelper.ParallelFindWordsbySearchString(_wordListModel.Items, SearchWord);
-               stopwatch.Stop();
+            var foundedWords = await Task.Factory.StartNew(() =>
+            {
+                Task.Delay(3000);
 
-               return result;
-           });
+                stopwatch = Stopwatch.StartNew();
+                var result = WordSearchHelper.ParallelFindWordsbySearchString(_wordListModel.Items, SearchWord);
+                stopwatch.Stop();
 
-            SearchResultModel searchResult = new SearchResultModel(CreateWords(foundeWords), stopwatch.Elapsed.TotalMilliseconds, SearchWord);
+                return result;
+            });
+
+            SearchResultModel searchResult = new SearchResultModel(CreateWords(foundedWords), stopwatch.Elapsed.TotalMilliseconds, SearchWord);
             Results = "------------------------------------------------------------------\n" +
-                       "search word: " + searchResult.SearchWord + "; duration: " + searchResult.SearchDuration  + " (ms)\n" +
-                       (!string.IsNullOrEmpty(searchResult.FoundedWords)? searchResult.FoundedWords : "Not found\n") + Results;
+                       "search word: " + searchResult.SearchWord + "; duration: " + searchResult.SearchDuration + " (ms)\n" +
+                       (!string.IsNullOrEmpty(searchResult.FoundedWords) ? searchResult.FoundedWords : "Not found\n") + Results;
         }
 
         private bool CanExecuteSearchCommand()
@@ -107,26 +110,7 @@ namespace SearchApp.ViewModels
         {
             _wordListModel = new WordListModel();
 
-
-            var wordList = WordListCreator.CreateDefaultWordList();
-
-            //    new List<string>
-            //{
-            //    "AAAAAAA",
-            //    "ZZZZZZ",
-            //    "Hello, welcome...",
-            //    "Vector is a great company",
-            //    "vector workplace is nice",
-            //    "BBBZZZGGG",
-            //    "hello Böblingen",
-            //    "vectors contain...",
-            //    "Xvector",
-            //    "vector object is usefull",
-            //    "earth is a beautifull planet",
-            //    "earth environment changes to fast",
-            //    "earth is the only planet where humans live"
-            //};
-
+            var wordList = WordListCreator.CreateDefaultWordList(); 
             _wordListModel.AddWords(wordList);
             WordList = CreateWords(wordList);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WordList)));

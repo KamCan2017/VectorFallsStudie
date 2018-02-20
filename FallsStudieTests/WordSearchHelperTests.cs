@@ -57,7 +57,7 @@ namespace FallsStudie.Tests
         public void FindWordsbySearchString_OneWord_Test()
         {
             //Find one word
-            var result = WordSearchHelper.FindWordsbySearchString(_wordList, "AAAAAAA");
+            var result = WordSearchHelper.FindWordsbySearchString(_wordList, "AAAA");
             var expected = new List<string> { "AAAAAAA" };
 
             Assert.AreEqual(expected.Count, result.Count());
@@ -65,11 +65,24 @@ namespace FallsStudie.Tests
         }
 
         [TestMethod()]
+        public void FindWordsbySearchString_NoWordFound_Test()
+        {
+            //Find 2 words
+            var result = WordSearchHelper.FindWordsbySearchString(_wordList, "xxxHello");
+            var expected = new List<string> {};
+
+            Assert.AreEqual(expected.Count, result.Count());
+
+            for (int i = 0; i < expected.Count; i++)
+                Assert.AreEqual(expected[i], result.ElementAt(i));
+        }
+
+        [TestMethod()]
         public void FindWordsbySearchString_TwoWords_Test()
         {
             //Find 2 words
             var result = WordSearchHelper.FindWordsbySearchString(_wordList, "Hello");
-            var expected = new List<string> { "Hello" };
+            var expected = new List<string> { "Hello", "Hello, welcome...", "hello Böblingen" };
 
             Assert.AreEqual(expected.Count, result.Count());
 
@@ -82,7 +95,7 @@ namespace FallsStudie.Tests
         {
             //Find 2 words
             var result = WordSearchHelper.FindWordsbySearchString(_wordList, "XCamp");
-            var expected = new List<string> { "XCamp",  "xcamp",  "XCAMP",};
+            var expected = new List<string> { "XCamp is a great company", "XCamp workplace is nice", "XCamp", "xcamp", "XCAMP", };
 
             Assert.AreEqual(expected.Count, result.Count());
 
@@ -95,7 +108,7 @@ namespace FallsStudie.Tests
         {
             //Find 2 words
             var result = WordSearchHelper.ParallelFindWordsbySearchString(_wordList, "XCamp");
-            var expected = new List<string> { "XCamp", "xcamp", "XCAMP", };
+            var expected = new List<string> { "XCamp is a great company", "XCamp workplace is nice", "XCamp", "xcamp", "XCAMP", };
 
             Assert.AreEqual(expected.Count, result.Count());
 

@@ -11,6 +11,8 @@ namespace WordFinder
     /// </summary>
     public static class WordSearchHelper
     {
+        private static Object _lockObject = new Object();
+
         /// <summary>
         /// Find a list of words from this word list,
         ///whose first characters match a search string
@@ -20,19 +22,21 @@ namespace WordFinder
         /// <returns>The collection of founded words</returns>
         public static IEnumerable<string> FindWordsbySearchString(IEnumerable<string> wordlist, string searchString)
         {
-            List<string> foundedWords = new List<string>();
-            if (wordlist == null || !wordlist.Any() || 
-               string.IsNullOrEmpty(searchString) || string.IsNullOrWhiteSpace(searchString))
-                return foundedWords;
-
-            foreach(string word in wordlist)
+           lock(_lockObject)
             {
-                if (word.Equals(searchString, StringComparison.InvariantCultureIgnoreCase))
-                    //if (word.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase))
-                    foundedWords.Add(word);
-            }
+                List<string> foundedWords = new List<string>();
+                if (wordlist == null || !wordlist.Any() ||
+                   string.IsNullOrEmpty(searchString) || string.IsNullOrWhiteSpace(searchString))
+                    return foundedWords;
 
-            return foundedWords;
+                foreach (string word in wordlist)
+                {
+                    if (word.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase))
+                        foundedWords.Add(word);
+                }
+
+                return foundedWords;
+            }            
         }
 
         /// <summary>
@@ -45,25 +49,26 @@ namespace WordFinder
         /// <returns>The collection of founded words</returns>
         public static IEnumerable<string> ParallelFindWordsbySearchString(IEnumerable<string> wordlist, string searchString)
         {
-           
-            List<string> foundedWords = new List<string>();
-            if (wordlist == null || !wordlist.Any() ||
-               string.IsNullOrEmpty(searchString) || string.IsNullOrWhiteSpace(searchString))
-                return foundedWords;
+            lock (_lockObject)
+            {
+                List<string> foundedWords = new List<string>();
+                if (wordlist == null || !wordlist.Any() ||
+                   string.IsNullOrEmpty(searchString) || string.IsNullOrWhiteSpace(searchString))
+                    return foundedWords;
 
-            ConcurrentBag<string> concurrentBag = new ConcurrentBag<string>(foundedWords); 
+                ConcurrentBag<string> concurrentBag = new ConcurrentBag<string>(foundedWords);
 
-            Parallel.ForEach(
-                wordlist, 
-                (word) => 
-                {
-                    if(word.Equals(searchString, StringComparison.InvariantCultureIgnoreCase))
-                        //if (word.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase))
-                        concurrentBag.Add(word);
-                }                
-                );           
+                Parallel.ForEach(
+                    wordlist,
+                    (word) =>
+                    {
+                        if (word.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase))
+                            concurrentBag.Add(word);
+                    }
+                    );
 
-            return concurrentBag;
+                return concurrentBag;
+            }
         }
     }
 }
