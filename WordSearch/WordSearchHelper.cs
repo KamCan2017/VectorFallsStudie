@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,18 +55,16 @@ namespace WordFinder
                    string.IsNullOrEmpty(searchString) || string.IsNullOrWhiteSpace(searchString))
                     return foundedWords;
 
-                ConcurrentBag<string> concurrentBag = new ConcurrentBag<string>(foundedWords);
-
                 Parallel.ForEach(
                     wordlist,
                     (word) =>
                     {
                         if (word.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase))
-                            concurrentBag.Add(word);
+                            foundedWords.Add(word);
                     }
                     );
 
-                return concurrentBag;
+                return foundedWords;
             }
         }
     }
