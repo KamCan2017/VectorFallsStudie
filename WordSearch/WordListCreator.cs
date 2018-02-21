@@ -8,7 +8,10 @@ namespace WordSearch
     /// </summary>
     public static class WordListCreator
     {
-
+        /// <summary>
+        /// create the default word list used to search a word
+        /// </summary>
+        /// <returns>The word list</returns>
         public static IEnumerable<string> CreateDefaultWordList()
         {
             char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',

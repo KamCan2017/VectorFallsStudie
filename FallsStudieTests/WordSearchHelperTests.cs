@@ -54,6 +54,27 @@ namespace FallsStudie.Tests
         }
 
         [TestMethod()]
+        public void ParallelFindWordsbySearchString_InvalidInput_Test()
+        {
+            //search string is empty
+            var result = WordSearchHelper.ParallelFindWordsbySearchString(_wordList, string.Empty);
+            var expected = new List<string>();
+            Assert.AreEqual(expected.Count, result.Count());
+
+            //search string is null
+            result = WordSearchHelper.ParallelFindWordsbySearchString(_wordList, null);
+            Assert.AreEqual(expected.Count, result.Count());
+
+            //Word list is empty
+            result = WordSearchHelper.ParallelFindWordsbySearchString(new List<string>(), null);
+            Assert.AreEqual(expected.Count, result.Count());
+
+            //word list is null
+            result = WordSearchHelper.ParallelFindWordsbySearchString(null, null);
+            Assert.AreEqual(expected.Count, result.Count());
+        }
+
+        [TestMethod()]
         public void FindWordsbySearchString_OneWord_Test()
         {
             //Find one word
@@ -65,20 +86,40 @@ namespace FallsStudie.Tests
         }
 
         [TestMethod()]
+        public void ParallelFindWordsbySearchString_OneWord_Test()
+        {
+            //Find one word
+            var result = WordSearchHelper.ParallelFindWordsbySearchString(_wordList, "AAAA");
+            var expected = new List<string> { "AAAAAAA" };
+
+            Assert.AreEqual(expected.Count, result.Count());
+            Assert.AreEqual(expected.First(), result.First());
+        }
+
+        [TestMethod()]
         public void FindWordsbySearchString_NoWordFound_Test()
         {
-            //Find 2 words
+            //Find no word
             var result = WordSearchHelper.FindWordsbySearchString(_wordList, "xxxHello");
             var expected = new List<string> {};
 
             Assert.AreEqual(expected.Count, result.Count());
-
-            for (int i = 0; i < expected.Count; i++)
-                Assert.AreEqual(expected[i], result.ElementAt(i));
+            Assert.IsTrue(result.Count() == 0);
         }
 
         [TestMethod()]
-        public void FindWordsbySearchString_TwoWords_Test()
+        public void ParallelFindWordsbySearchString_NoWordFound_Test()
+        {
+            //Find no word
+            var result = WordSearchHelper.ParallelFindWordsbySearchString(_wordList, "xxxHello");
+            var expected = new List<string> { };
+
+            Assert.AreEqual(expected.Count, result.Count());
+            Assert.IsTrue(result.Count() == 0);
+        }
+
+        [TestMethod()]
+        public void FindWordsbySearchString_MoreWords1_Test()
         {
             //Find 2 words
             var result = WordSearchHelper.FindWordsbySearchString(_wordList, "Hello");
@@ -91,7 +132,7 @@ namespace FallsStudie.Tests
         }
 
         [TestMethod()]
-        public void FindWordsbySearchString_MoreWords_Test()
+        public void FindWordsbySearchString_MoreWords2_Test()
         {
             //Find 2 words
             var result = WordSearchHelper.FindWordsbySearchString(_wordList, "XCamp");

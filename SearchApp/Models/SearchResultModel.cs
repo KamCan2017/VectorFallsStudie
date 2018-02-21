@@ -1,7 +1,7 @@
 ﻿namespace SearchApp.Models
 {
     /// <summary>
-    /// The SearchResultModel class
+    /// The SearchResultModel class exposes the search result for a word in a word list
     /// </summary>
     public class SearchResultModel
     {
@@ -32,6 +32,9 @@
         /// </summary>
         public string FoundedWords { get; private set; }
 
+        /// <summary>
+        /// Gets the duration of a search
+        /// </summary>
         public double SearchDuration { get; private set; }
 
         #endregion
