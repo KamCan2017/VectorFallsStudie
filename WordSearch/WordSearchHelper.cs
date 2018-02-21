@@ -48,24 +48,21 @@ namespace WordFinder
         /// <returns>The collection of founded words</returns>
         public static IEnumerable<string> ParallelFindWordsbySearchString(IEnumerable<string> wordlist, string searchString)
         {
-            lock (_lockObject)
-            {
-                List<string> foundedWords = new List<string>();
-                if (wordlist == null || !wordlist.Any() ||
-                   string.IsNullOrEmpty(searchString) || string.IsNullOrWhiteSpace(searchString))
-                    return foundedWords;
-
-                Parallel.ForEach(
-                    wordlist,
-                    (word) =>
-                    {
-                        if (word.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase))
-                            foundedWords.Add(word);
-                    }
-                    );
-
+            List<string> foundedWords = new List<string>();
+            if (wordlist == null || !wordlist.Any() ||
+               string.IsNullOrEmpty(searchString) || string.IsNullOrWhiteSpace(searchString))
                 return foundedWords;
-            }
+
+            Parallel.ForEach(
+                wordlist,
+                (word) =>
+                {
+                    if (word.StartsWith(searchString, StringComparison.InvariantCultureIgnoreCase))
+                        foundedWords.Add(word);
+                }
+                );
+
+            return foundedWords;
         }
     }
 }

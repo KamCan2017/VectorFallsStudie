@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SearchApp"
+        Icon="..\Images\Search32x30.png"
         mc:Ignorable="d"
-        Title="SearchApp" Height="350" Width="525">
+        Title="Such-App" Height="430" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -28,15 +29,16 @@
                     <KeyBinding Command="{Binding Path=SearchCommand}" Key="Enter" />
                 </TextBox.InputBindings>
             </TextBox>
-            <Button Content="Search" Margin="5"  Grid.Column="1" Command="{Binding SearchCommand}"/>
+            <Button Content="Suche" Margin="5"  Grid.Column="1" Command="{Binding SearchCommand}"
+                    TextBlock.FontWeight="DemiBold" Width="60"/>
         </Grid>
-        
+
         <Grid Grid.Row="1" Grid.Column="0"  Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Word list" FontSize="16" FontWeight="DemiBold" Foreground="DarkBlue" Margin="5"/>
+            <TextBlock Text="Wortliste" FontSize="16" FontWeight="DemiBold" Foreground="DarkBlue" Margin="5"/>
             <TextBox Grid.Row="1" Margin="5" IsReadOnly="True" TextBlock.Foreground="Black" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                      Text="{Binding WordList, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
@@ -46,7 +48,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Results" FontSize="16" FontWeight="DemiBold" Foreground="DarkBlue" Margin="5"/>
+            <TextBlock Text="Suchergebnisse" FontSize="16" FontWeight="DemiBold" Foreground="DarkBlue" Margin="5"/>
             <TextBox Grid.Row="1" Margin="5" IsReadOnly="True" TextBlock.Foreground="Blue" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                      Text="{Binding Results, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>

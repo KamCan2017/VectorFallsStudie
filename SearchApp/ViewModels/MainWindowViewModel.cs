@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using WordFinder;
 using WordSearch;
 
@@ -30,7 +29,7 @@ namespace SearchApp.ViewModels
         /// </summary>
         public MainWindowViewModel()
         {
-            _searchCommand = new DelegateCommand(async() =>  await ExecuteSearchCommand(), CanExecuteSearchCommand);
+            _searchCommand = new DelegateCommand(() =>  ExecuteSearchCommand(), CanExecuteSearchCommand);
             InitWordList();
         }
         #endregion
@@ -80,25 +79,18 @@ namespace SearchApp.ViewModels
 
         #region private methods
 
-        private async Task ExecuteSearchCommand()
+        private void ExecuteSearchCommand()
         {
 
             Stopwatch stopwatch = null;
-            var foundedWords = await Task.Factory.StartNew(() =>
-            {
-                Task.Delay(3000);
-
-                stopwatch = Stopwatch.StartNew();
-                var result = WordSearchHelper.ParallelFindWordsbySearchString(_wordListModel.Items, SearchWord);
-                stopwatch.Stop();
-
-                return result;
-            });
+            stopwatch = Stopwatch.StartNew();
+            var foundedWords = WordSearchHelper.ParallelFindWordsbySearchString(_wordListModel.Items, SearchWord.Trim());
+            stopwatch.Stop();
 
             SearchResultModel searchResult = new SearchResultModel(CreateWords(foundedWords), stopwatch.Elapsed.TotalMilliseconds, SearchWord);
             Results = "------------------------------------------------------------------\n" +
-                       "search word: " + searchResult.SearchWord + "; duration: " + searchResult.SearchDuration + " (ms)\n" +
-                       (!string.IsNullOrEmpty(searchResult.FoundedWords) ? searchResult.FoundedWords : "Not found\n") + Results;
+                       "Suchwort: " + searchResult.SearchWord + "; Laufzeit: " + searchResult.SearchDuration + " Millisekunde(n)\n" +
+                       searchResult.FoundedWords + Results;
         }
 
         private bool CanExecuteSearchCommand()

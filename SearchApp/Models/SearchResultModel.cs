@@ -15,7 +15,7 @@
         public SearchResultModel(string foundedWords, double searchDuration, string searchString)
         {
             SearchWord = searchString;
-            FoundedWords = foundedWords;
+            FoundedWords = !string.IsNullOrEmpty(foundedWords) ? foundedWords : "Kein Treffer\n";
             SearchDuration = searchDuration;
         }
         #endregion
