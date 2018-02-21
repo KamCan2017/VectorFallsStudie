@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SearchApp"
         Icon="..\Images\Search32x30.png"
         mc:Ignorable="d"
-        Title="Such-App" Height="430" Width="800" WindowStartupLocation="CenterScreen">
+        Title="Suche-App" Height="430" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
