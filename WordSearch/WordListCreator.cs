@@ -21,23 +21,23 @@ namespace WordSearch
             List<string> wordList = new List<string>();
             Random random = new Random();
             string newWord = string.Empty;
-            foreach(char letter in alphabet)
-            {
-                newWord = string.Empty;
-                for(int i = 0; i < 4; i++)
+            foreach (char letter in alphabet)
                 {
-                    newWord += new string(new[] { letter });
+                    newWord = string.Empty;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        newWord += new string(new[] { letter });
+                    }
+
+                    int position = 0;
+                    do
+                    {
+                        position = random.Next(0, 25);
+                    } while (position > wordList.Count);
+
+                    if (!wordList.Contains(newWord))
+                        wordList.Insert(position, newWord);
                 }
-
-                int position = 0;
-                do
-                {
-                    position = random.Next(0, 25);
-                } while (position > wordList.Count);
-
-                if (!wordList.Contains(newWord))
-                    wordList.Insert(position, newWord);
-            }
 
             return wordList;
         }

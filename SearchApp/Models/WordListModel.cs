@@ -27,7 +27,7 @@ namespace SearchApp.Model
             {
                 lock(_lockObject)
                 {
-                    return _wordList.ToList();
+                    return _wordList;
                 }
             }
         }
