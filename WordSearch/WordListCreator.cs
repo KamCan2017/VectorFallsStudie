@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WordSearch
 {
@@ -22,22 +24,42 @@ namespace WordSearch
             Random random = new Random();
             string newWord = string.Empty;
             foreach (char letter in alphabet)
+            {
+                newWord = string.Empty;
+                for (int i = 0; i < 4; i++)
                 {
-                    newWord = string.Empty;
-                    for (int i = 0; i < 4; i++)
-                    {
-                        newWord += new string(new[] { letter });
-                    }
-
-                    int position = 0;
-                    do
-                    {
-                        position = random.Next(0, 25);
-                    } while (position > wordList.Count);
-
-                    if (!wordList.Contains(newWord))
-                        wordList.Insert(position, newWord);
+                    newWord += new string(new[] { letter });
                 }
+
+                int position = 0;
+                do
+                {
+                    position = random.Next(0, 25);
+                } while (position > wordList.Count);
+
+                if (!wordList.Contains(newWord))
+                    wordList.Insert(position, newWord);
+            }
+
+            //int maxCharacters = 4;
+            //int position = 0;
+            //int combination = 1000;// (int)Math.Pow(alphabet.Length, 4);
+            //var array = new object[combination] ;
+
+            //Parallel.ForEach(array, item => 
+            //{
+            //    string newWord = string.Empty;
+            //    for (int i = 1; i <= maxCharacters; i++)
+            //    {
+            //        position = random.Next(0, 25);
+            //        newWord += new string(new[] { alphabet[position] });
+            //        if (i == maxCharacters)
+            //        {
+            //            if(!wordList.Contains(newWord))
+            //               wordList.Add(newWord);
+            //        }
+            //    }
+            //});  
 
             return wordList;
         }
